@@ -1,3 +1,4 @@
+// game
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
  
@@ -190,7 +191,7 @@ function PlayerFrame() {
     }
 
     function removeStone() {
-        
+
     }
 
 
