@@ -35,8 +35,8 @@ const player = {
 }
 
 
-function drawChar(img, spriteX, spriteY, spriteW, spriteH, dX, dY, dW, dH) {
-    context.drawImage(img, spriteX, spriteY, spriteW, spriteH, dX, dY, dW, dH);
+function drawChar(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH) {
+    context.drawImage(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH);
 }
 
 
@@ -90,7 +90,9 @@ function movePlayer() {
 function PlayerFrame() {
     if(player.frameX < 3 && player.moving) {
         player.frameX++
-    } else {player.frameX = 0};
+    } else {
+        player.frameX = 0
+    };
 }
 
 // cordinates
@@ -108,7 +110,7 @@ function PlayerFrame() {
 // platforms
     let platforms = [];
     let num = 5;
-    function createplat(){
+    function createPlatform(){
         for(i = 0; platforms.length < num; i++) {
             let randomCord = cord[Math.floor(Math.random()*cord.length)];
             console.log(randomCord)
@@ -132,8 +134,8 @@ function PlayerFrame() {
 
     function collisionCheck(platform) {
             if(player.x > platform.x + platform.width) {return false};
-            if(player.x + player.width < platform.x) {return false};
             if(player.y > platform.y + platform.height) {return false};
+            if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
     };
@@ -143,7 +145,6 @@ function PlayerFrame() {
             if(collisionCheck(platforms[i])) {
                 player.y_velocity = 0;
                 player.y = platforms[i].y - 60;
-                // player.x = platforms[0].x;
             }
         }
     }
@@ -210,5 +211,5 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-createplat();
+createPlatform();
 animate();
