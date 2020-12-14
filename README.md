@@ -6,12 +6,10 @@ Eevee Run is a classic runner game based on the Pokemon "eevee". This specific P
 
 # Functionality & MVP
 With the game eevee run, users will be able to:
-- [ ] Start, pause, and reset the game
-- [ ] WASD walking controls or continuous run function. Space bar to jump.
+- [ ] left, right walking controls or continuous run function. up to jump.
 
 The main functionality of this game:
 - [ ] collect and store stones till the end of the level is reached or till the max number of stones are reached to envoke the evolution.
-- [ ] will be able to most to different platforms of the level.
 
 Game should also include:
 - [ ] instuctions of how to play and the goal of the game.
@@ -38,7 +36,7 @@ The technical challenges that I may face is collecting the correct stones and be
 
 - Day 2: Creating the running platform and adding the tokens onto the board. Trying to collect the tokens at hit and increase the correct number count.
 
-- Day 3: finish game aspects (restart, pause, stop, start)
+- Day 3: finish game aspects 
 
 - Day 4: Create and additional characters/images and background images for game.
 
