@@ -1,6 +1,7 @@
 // game
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
+
  
 const playerSprite = new Image();
 playerSprite.src = "src/images/eevee2.png";
@@ -34,6 +35,52 @@ const player = {
     jump: true
 }
 
+
+// camera
+// context.save();
+// context.translate(-player.x + canvas.width/2, 0);
+// 
+
+//background
+
+let looping = false;
+
+function draw() {
+    let seconds = 4;
+    let bgVel = 100; // the background velocity
+    let num = Math.ceil(canvas.width / canvas.width) + 1;
+    let xPosition = seconds * bgVel % canvas.width;
+
+    context.save();
+    context.translate(xPosition, 0);
+
+    for (let i = 0; i < num; i++) {
+        context.drawImage(background, i * canvas.width, 0);
+    }
+
+    context.restore();
+}
+
+function imageLoaded() {
+    draw();
+
+    let button = document.getElementById('btnStart');
+    button.addEventListener('click', startStop())
+
+
+}
+
+function startStop()
+
+function loop() {
+    if(!looping){
+        return;
+    }
+    requestAnimationFrame(loop);
+    draw();
+}
+
+window.onload = loop();
 
 function drawChar(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH) {
     context.drawImage(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH);
@@ -109,20 +156,31 @@ function PlayerFrame() {
 
 // platforms
     let platforms = [];
+    let stones = [];
+    let totalStones = 0;
+
     let num = 5;
     function createPlatform(){
-        for(i = 0; platforms.length < num; i++) {
+        for(i = 0; platforms.length < num; i++) { // make a loop not to have 
             let randomCord = cord[Math.floor(Math.random()*cord.length)];
-            console.log(randomCord)
+            // console.log(randomCord)
             let platform = {
                 x: randomCord.x,
                 y: randomCord.y,
                 width: 47,
                 height: 37
+            };
+            let stone = {
+                x: randomCord.x + 50,
+                y: randomCord.y - 40,
+                width: 47,
+                height: 37
             }
                 platforms.push(platform);
-
-        }
+                stones.push(stone)
+                
+            }
+            console.log(platforms)
     }
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
@@ -150,20 +208,20 @@ function PlayerFrame() {
     }
 
 // stones
-    let stones = [];
-    function stoneCollection() {
-        for(let i = 0; i < platforms.length; i++) {
-            let stone = {
-                x: platforms[i].x + 50,
-                y: platforms[i].y -40,
-                width: platforms[i].width,
-                height: platforms[i].height
-            }
-            stones.push(stone);
-        }
-    }
+    // function stoneCollection() {
+    //     for(let i = 0; i < platforms.length; i++) {
+    //         let stone = {
+    //             x: platforms[i].x + 50,
+    //             y: platforms[i].y -40,
+    //             width: platforms[i].width,
+    //             height: platforms[i].height
+    //         }
+    //         stones.push(stone);
+    //     }
+    //     // console.log("stones", stones)
+    // }
 
-    function renderStones() {
+    function renderStones(){
         for(let i = 0; i < stones.length; i++) {
             context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
         }
@@ -183,19 +241,20 @@ function PlayerFrame() {
         for(let i = 0; i < stones.length; i++) {
             if (stoneCollisionCheck(stones[i])) {
                 stones.splice(i, 1);
+                totalStones += 1;
             }
         }
-    }
-
-    function removeStone() {
-
     }
 
 
 function animate() {
     // for background later
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+    // context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
+    
+    // draw() // drawing of bgf
+    // loop();
+
     context.beginPath();
     drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);
     movePlayer();
@@ -205,11 +264,13 @@ function animate() {
     platformCollision();
 
     renderStones();
-    stoneCollection();
+    // stoneCollection();
     stoneCollision();
 
     requestAnimationFrame(animate);
 }
 
+// stoneCollection();
+loop();
 createPlatform();
 animate();
