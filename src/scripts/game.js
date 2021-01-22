@@ -21,6 +21,8 @@ canvas.height = 400;
 canvas.width = 600;
 
 const keys = [];
+let speed = -0.2;
+let x = 0;
 
 const player = {
     x: 230,
@@ -35,52 +37,7 @@ const player = {
     jump: true
 }
 
-
-// camera
-// context.save();
-// context.translate(-player.x + canvas.width/2, 0);
-// 
-
 //background
-
-let looping = false;
-
-function draw() {
-    let seconds = 4;
-    let bgVel = 100; // the background velocity
-    let num = Math.ceil(canvas.width / canvas.width) + 1;
-    let xPosition = seconds * bgVel % canvas.width;
-
-    context.save();
-    context.translate(xPosition, 0);
-
-    for (let i = 0; i < num; i++) {
-        context.drawImage(background, i * canvas.width, 0);
-    }
-
-    context.restore();
-}
-
-function imageLoaded() {
-    draw();
-
-    let button = document.getElementById('btnStart');
-    button.addEventListener('click', startStop())
-
-
-}
-
-function startStop()
-
-function loop() {
-    if(!looping){
-        return;
-    }
-    requestAnimationFrame(loop);
-    draw();
-}
-
-window.onload = loop();
 
 function drawChar(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH) {
     context.drawImage(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH);
@@ -144,44 +101,71 @@ function PlayerFrame() {
 
 // cordinates
 
-    let cord = [
-        {x:100, y:200},
-        {x:150, y:200},
-        {x:200, y:100},
-        {x:250, y:200},
-        {x:300, y:200},
-        {x:350, y:200}
-    ]
+    // let cord = [
+    //     {x:100, y:200},
+    //     {x:150, y:200},
+    //     {x:200, y:100},
+    //     {x:250, y:200},
+    //     {x:300, y:200},
+    //     {x:350, y:200}
+    // ]
 
 
 // platforms
     let platforms = [];
     let stones = [];
-    let totalStones = 0;
 
+    let totalStones = 0;
     let num = 5;
+    let frame = 0;
+    let gameSpeed = 2;
+    let wid = canvas.width;
+
     function createPlatform(){
-        for(i = 0; platforms.length < num; i++) { // make a loop not to have 
-            let randomCord = cord[Math.floor(Math.random()*cord.length)];
+        let minX = 50;
+        let minY = 100;
+        let x = minX + Math.floor(Math.random()*(250));
+        let y = minY + Math.floor(Math.random()*(100));
+        // let lastPlat = platforms[platforms.length -1];
+
+        // for(i = 0; platforms.length < num; i++) { // make a loop not to have 
+            // let randomCord = cord[Math.floor(Math.random()*cord.length)];
             // console.log(randomCord)
+            // let platform = {
+            //     x: randomCord.x,
+            //     y: randomCord.y,
+            //     width: 47,
+            //     height: 37
+            // };
             let platform = {
-                x: randomCord.x,
-                y: randomCord.y,
+                x,
+                y,
                 width: 47,
                 height: 37
             };
             let stone = {
-                x: randomCord.x + 50,
-                y: randomCord.y - 40,
+                x: x + 50,
+                y: y - 40,
                 width: 47,
                 height: 37
             }
-                platforms.push(platform);
-                stones.push(stone)
-                
+            if(frame% 50 === 0) {
+                platforms.unshift(platform);
+                stones.unshift(stone)                
             }
-            console.log(platforms)
+
+            for(let i = 0; i < platforms.length; i++) {
+                updatePlatform();
+            }
+
+            if(platforms.length > 5) {
+                platforms.pop(platforms[0]);
+                stones.pop(stones[0]);
+            }
+                
+            // }
     }
+    
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
                 context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
@@ -189,6 +173,20 @@ function PlayerFrame() {
         }
     
     }
+
+    function updatePlatform() {
+        x -= gameSpeed;
+        renderplatform();
+        renderStones();
+    }
+
+    // function renderplatform() {
+    //     platforms.forEach(({x, y})=> {
+    //     context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+    //     context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);
+
+    //     })
+    // }
 
     function collisionCheck(platform) {
             if(player.x > platform.x + platform.width) {return false};
@@ -206,20 +204,6 @@ function PlayerFrame() {
             }
         }
     }
-
-// stones
-    // function stoneCollection() {
-    //     for(let i = 0; i < platforms.length; i++) {
-    //         let stone = {
-    //             x: platforms[i].x + 50,
-    //             y: platforms[i].y -40,
-    //             width: platforms[i].width,
-    //             height: platforms[i].height
-    //         }
-    //         stones.push(stone);
-    //     }
-    //     // console.log("stones", stones)
-    // }
 
     function renderStones(){
         for(let i = 0; i < stones.length; i++) {
@@ -249,8 +233,16 @@ function PlayerFrame() {
 
 function animate() {
     // for background later
+    context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
-    // context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
+
+    // x += speed;
+    // x %= canvas.width;
+
+    // context.drawImage(background, x, 0, canvas.width, canvas.height); //background
+    // context.drawImage(background, x + canvas.width, 0, canvas.width, canvas.height); //background
+
+    context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
     
     // draw() // drawing of bgf
     // loop();
@@ -263,14 +255,16 @@ function animate() {
     renderplatform();
     platformCollision();
 
-    renderStones();
+    // renderStones();
     // stoneCollection();
     stoneCollision();
+    createPlatform();
 
     requestAnimationFrame(animate);
+    // context.restore();
+
+    frame++;
 }
 
-// stoneCollection();
-loop();
-createPlatform();
+// createPlatform();
 animate();
