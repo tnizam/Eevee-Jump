@@ -120,12 +120,14 @@ function PlayerFrame() {
     let frame = 0;
     let gameSpeed = 2;
     let wid = canvas.width;
+    let minX = 5;
+    let minY = 100;
+    let minGap = 30;
+    let maxGap = 200;
 
     function createPlatform(){
-        let minX = 50;
-        let minY = 100;
-        let x = minX + Math.floor(Math.random()*(250));
-        let y = minY + Math.floor(Math.random()*(100));
+        let x = minX + Math.floor(Math.random()*(500));
+        let y = minY + Math.floor(Math.random()*(150));
         // let lastPlat = platforms[platforms.length -1];
 
         // for(i = 0; platforms.length < num; i++) { // make a loop not to have 
@@ -151,14 +153,15 @@ function PlayerFrame() {
             }
             if(frame% 50 === 0) {
                 platforms.unshift(platform);
-                stones.unshift(stone)                
+                stones.unshift(stone);                
             }
 
             for(let i = 0; i < platforms.length; i++) {
-                updatePlatform();
+                // updatePlatform();
+                setInterval(updatePlatform(), 4)
             }
 
-            if(platforms.length > 5) {
+            if(platforms.length > 3) {
                 platforms.pop(platforms[0]);
                 stones.pop(stones[0]);
             }
@@ -166,16 +169,30 @@ function PlayerFrame() {
             // }
     }
     
+    // function clear() {
+    //     context.clearRect(0, 0, canvas.width, canvas.height);  
+    // }
+
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
-                context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-                context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);
+            context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+            context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);        
         }
     
     }
+    function renderStones(){
+        for(let i = 0; i < stones.length; i++) {
+            context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
+        }
+    }
 
     function updatePlatform() {
-        x -= gameSpeed;
+        // context.clear();
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+        // x -= gameSpeed;
+        
+        platforms[0].x -= 1;
+        stones[0].x -= 1;
         renderplatform();
         renderStones();
     }
@@ -205,11 +222,6 @@ function PlayerFrame() {
         }
     }
 
-    function renderStones(){
-        for(let i = 0; i < stones.length; i++) {
-            context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
-        }
-    }
 
     function stoneCollisionCheck(stone) {
 
@@ -220,6 +232,7 @@ function PlayerFrame() {
         return true;
     };
 
+    // Check stone collision here 
     function stoneCollision() {
         
         for(let i = 0; i < stones.length; i++) {
@@ -252,7 +265,7 @@ function animate() {
     movePlayer();
     PlayerFrame();
 
-    renderplatform();
+    // renderplatform();
     platformCollision();
 
     // renderStones();
@@ -263,7 +276,7 @@ function animate() {
     requestAnimationFrame(animate);
     // context.restore();
 
-    frame++;
+    // frame++
 }
 
 // createPlatform();
