@@ -2,7 +2,9 @@
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
 const startButton = document.getElementById("btnStart");
+const resetButton = document.getElementById("btnReset");
 const startModal = document.getElementById("startModal");
+const endModal = document.getElementById("endModal");
 const scoreCount = document.getElementById("score-count") 
 
 const playerSprite = new Image();
@@ -96,19 +98,19 @@ window.addEventListener("keyup", function(event){
 });
 
 function movePlayer() {
-    if(keys["ArrowLeft"] && player.x > 0) {
+    if((keys["ArrowLeft"] || keys["a"]) && player.x > 0) {
         player.x_velocity -= 0.5;
         player.frameY = 0;
         player.moving = true;
         player.jumping = true;
 
     }
-    if(keys["ArrowRight"]) { // && player.x < canvas.width - player.width
+    if(keys["ArrowRight"] || keys["d"]) { // && player.x < canvas.width - player.width
         player.x_velocity += 0.5;
         player.frameY = 1;
         player.moving = true;
     }
-    if(keys["ArrowUp"] && player.jumping == false) {
+    if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
         player.y_velocity -= 30;
         player.jumping = true;
     }
@@ -261,8 +263,9 @@ function animate() {
     } else {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
         cancelAnimationFrame(animationId);
-        startModal.style.display = "flex";
-
+        endModal.style.display = "flex";
+        resetButton.style.display = "flex";
+        startButton.style.display = "none";
     }
 
     frame+=1
@@ -271,6 +274,15 @@ function animate() {
 // start game
 
 startButton.addEventListener('click', () => {
+    reset();
+    animate();
+    startModal.style.display = "none";
+})
+
+// reset game
+
+resetButton.style.display = "none";
+resetButton.addEventListener('click', () => {
     reset();
     animate();
     startModal.style.display = "none";
