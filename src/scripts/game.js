@@ -1,10 +1,14 @@
 // game
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
+const startButton = document.getElementById("btnStart");
+const startModal = document.getElementById("startModal");
+const scoreCount = document.getElementById("score-count") 
 
- 
 const playerSprite = new Image();
 playerSprite.src = "src/images/eevee2.png";
+const fireSprite = new Image();
+fireSprite.src = "src/images/flareon.png"; 
 const background = new Image();
 background.src = "src/images/bg-img.jpg";
     
@@ -20,11 +24,22 @@ fireStone.src = "src/images/stones1.png";
 canvas.height = 400;
 canvas.width = 600;
 
-const keys = [];
+let keys = [];
 let speed = -0.2;
 let x = 0;
+let platforms = [];
+let stones = [];
 
-const player = {
+let totalStones = 0;
+let frame = 0;
+let gameSpeed = 0.3;
+let wid = canvas.width;
+let minX = 5;
+let minY = 100;
+let minGap = 50;
+let maxGap = 90;
+
+let player = {
     x: 230,
     y: 0,
     width: 67,
@@ -36,6 +51,27 @@ const player = {
     moving: false,
     jump: true
 }
+
+function reset() {
+    platforms = [];
+    stones = [];
+    totalStones = 0;
+    scoreCount.innerHTML = totalStones;
+
+    player = {
+        x: 230,
+        y: 0,
+        width: 67,
+        height: 67,
+        frameX: 0,
+        frameY: 1,
+        x_velocity: 0,
+        y_velocity: 0,
+        moving: false,
+        jump: true
+    }
+}
+
 
 //background
 
@@ -99,46 +135,14 @@ function PlayerFrame() {
     };
 }
 
-// cordinates
-
-    // let cord = [
-    //     {x:100, y:200},
-    //     {x:150, y:200},
-    //     {x:200, y:100},
-    //     {x:250, y:200},
-    //     {x:300, y:200},
-    //     {x:350, y:200}
-    // ]
-
-
 // platforms
-    let platforms = [];
-    let stones = [];
-
-    let totalStones = 0;
-    let num = 5;
-    let frame = 0;
-    let gameSpeed = 2;
-    let wid = canvas.width;
-    let minX = 5;
-    let minY = 100;
-    let minGap = 30;
-    let maxGap = 200;
 
     function createPlatform(){
-        let x = minX + Math.floor(Math.random()*(500));
+        // let x = minX + Math.floor(Math.random()*(500));
+        let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
-        // let lastPlat = platforms[platforms.length -1];
+        let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
 
-        // for(i = 0; platforms.length < num; i++) { // make a loop not to have 
-            // let randomCord = cord[Math.floor(Math.random()*cord.length)];
-            // console.log(randomCord)
-            // let platform = {
-            //     x: randomCord.x,
-            //     y: randomCord.y,
-            //     width: 47,
-            //     height: 37
-            // };
             let platform = {
                 x,
                 y,
@@ -151,27 +155,19 @@ function PlayerFrame() {
                 width: 47,
                 height: 37
             }
-            if(frame% 50 === 0) {
-                platforms.unshift(platform);
-                stones.unshift(stone);                
+            if(frame % gap === 0) {
+                platforms.push(platform);
+                stones.push(stone);  
+                frame = 0;    
             }
 
             for(let i = 0; i < platforms.length; i++) {
                 // updatePlatform();
-                setInterval(updatePlatform(), 4)
-            }
-
-            if(platforms.length > 3) {
-                platforms.pop(platforms[0]);
-                stones.pop(stones[0]);
+                setInterval(updatePlatform(), 5000)
             }
                 
-            // }
-    }
     
-    // function clear() {
-    //     context.clearRect(0, 0, canvas.width, canvas.height);  
-    // }
+    }
 
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
@@ -186,24 +182,20 @@ function PlayerFrame() {
         }
     }
 
+
     function updatePlatform() {
-        // context.clear();
-        // context.clearRect(0, 0, canvas.width, canvas.height);
-        // x -= gameSpeed;
-        
-        platforms[0].x -= 1;
-        stones[0].x -= 1;
-        renderplatform();
-        renderStones();
+
+        for(let i = 0; i < platforms.length; i++) {
+            platforms[i].x -= gameSpeed;
+            // stones[i].x -= 1;
+            renderplatform();
+            // renderStones();
+        }
+        for(let i = 0; i < stones.length; i++) {
+            stones[i].x -=gameSpeed;
+            renderStones();
+        }
     }
-
-    // function renderplatform() {
-    //     platforms.forEach(({x, y})=> {
-    //     context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-    //     context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);
-
-    //     })
-    // }
 
     function collisionCheck(platform) {
             if(player.x > platform.x + platform.width) {return false};
@@ -239,45 +231,48 @@ function PlayerFrame() {
             if (stoneCollisionCheck(stones[i])) {
                 stones.splice(i, 1);
                 totalStones += 1;
+                scoreCount.innerHTML = totalStones;
             }
         }
     }
-
 
 function animate() {
     // for background later
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // x += speed;
-    // x %= canvas.width;
-
-    // context.drawImage(background, x, 0, canvas.width, canvas.height); //background
-    // context.drawImage(background, x + canvas.width, 0, canvas.width, canvas.height); //background
-
     context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
     
-    // draw() // drawing of bgf
-    // loop();
-
     context.beginPath();
-    drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);
+    
+    
     movePlayer();
     PlayerFrame();
-
-    // renderplatform();
+    
     platformCollision();
-
-    // renderStones();
-    // stoneCollection();
+    
     stoneCollision();
     createPlatform();
-
-    requestAnimationFrame(animate);
+    
+    let animationId = requestAnimationFrame(animate);
     // context.restore();
+    if(totalStones < 2) {
+        drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);    
+    } else {
+        context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
+        cancelAnimationFrame(animationId);
+        startModal.style.display = "flex";
 
-    // frame++
+    }
+
+    frame+=1
 }
 
-// createPlatform();
-animate();
+// start game
+
+startButton.addEventListener('click', () => {
+    reset();
+    animate();
+    startModal.style.display = "none";
+})
+
