@@ -1,3 +1,126 @@
 
+.fullpage {
+    background-color: bisque;
+}
+
+.canvas {
+    width: 600px;
+    height: 500px;
+    border: 1px solid black;
+    background-image: url(images/bg-img.jpg);
+    background-size: 800px;
+    background-color: lightblue;
+    margin: 10% 20% 0 20%;
+
+}
+
+div#score-keeper {
+    position: absolute;
+    top: 80px;
+    left: 140px;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.modal {
+    position: absolute;
+    left: 172px;
+    top: 80px;
+    width: 300px;
+    height: 250px;
+    background-color: white;
+    margin: 12%;
+    padding: 20px;
+    box-sizing: 5px;
+    box-shadow: 5px 10px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.button {
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    background-color: peachpuff;
+    font-family: monospace;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.restart-button {
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    background-color: peachpuff;
+    font-family: monospace;
+    font-size: 27px;
+    font-weight: bold;
+    justify-content: center;
+    padding-top: 5px;
+}
+
+.restart-modal {
+    display: none;
+    position: absolute;
+    width: 400px;
+    left: 128px;
+    top: 365px;
+    background-color: white;
+    margin: 12%;
+    padding: 13px;
+    box-sizing: 5px;
+    box-shadow: 5px 10px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.modal-canvas {
+    position: absolute;
+    margin: auto !important;
+    left: 15%;
+    top: 67%;
+    transform: translate(-15%, -15%);
+}
+
+.win-message {
+    margin-top: 4px;
+    font-family: monospace;
+    font-size: 20px;
+}
+
+.instructions {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.win-container{
+    padding-left: 12px;
+}
+
+img.logo {
+    width: 500px;
+    margin: 40px 20px 20px 20px;
+    position: relative;
+    left: 26%;
+    top: 8%;
+}
+
+.page-container {
+    position: absolute;
+    margin: auto !important;
+}
+
+.icon-container {
+    position: relative;
+    display: grid;
+    justify-items: flex-end;
+    width: 139%;
+    bottom: 9px;
+    font-size: 33px;
+}
+
+.icon {
+    color: #396BBA;
+}
 
 /*# sourceMappingURL=main.css.map*/
