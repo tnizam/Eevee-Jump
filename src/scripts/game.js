@@ -87,8 +87,6 @@ window.addEventListener("keydown", function(event) {
     player.moving = true;
     player.jumping = false;
 
-
-    // console.log(keys);
 });
 
 window.addEventListener("keyup", function(event){
@@ -146,7 +144,6 @@ function PlayerFrame() {
 // platforms
 
     function createPlatform(){
-        // let x = minX + Math.floor(Math.random()*(500));
         let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
         let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
@@ -170,7 +167,6 @@ function PlayerFrame() {
             }
 
             for(let i = 0; i < platforms.length; i++) {
-                // updatePlatform();
                 setInterval(updatePlatform(), 5000)
             }
                 
@@ -195,9 +191,7 @@ function PlayerFrame() {
 
         for(let i = 0; i < platforms.length; i++) {
             platforms[i].x -= gameSpeed;
-            // stones[i].x -= 1;
             renderplatform();
-            // renderStones();
         }
         for(let i = 0; i < stones.length; i++) {
             stones[i].x -=gameSpeed;
@@ -245,7 +239,6 @@ function PlayerFrame() {
     }
 
 function animate() {
-    // for background later
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -263,7 +256,6 @@ function animate() {
     createPlatform();
     
     let animationId = requestAnimationFrame(animate);
-    // context.restore();
     if(totalStones < 20) {
         drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);    
     } else {
