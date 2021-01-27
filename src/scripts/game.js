@@ -127,6 +127,12 @@ function movePlayer() {
         player.y = 268;
         player.y_velocity = 0;
     }
+
+    if (player.y < 0) { 
+        player.jumping = false;
+        player.y = 0;
+        player.y_velocity = 0;
+    }
 }
 
 function PlayerFrame() {
@@ -258,7 +264,7 @@ function animate() {
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
-    if(totalStones < 2) {
+    if(totalStones < 20) {
         drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);    
     } else {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
@@ -285,6 +291,7 @@ resetButton.style.display = "none";
 resetButton.addEventListener('click', () => {
     reset();
     animate();
+    endModal.style.display = "none";
     startModal.style.display = "none";
 })
 
