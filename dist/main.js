@@ -1,2 +1,123 @@
-!function(e){var t={};function i(r){if(t[r])return t[r].exports;var n=t[r]={i:r,l:!1,exports:{}};return e[r].call(n.exports,n,n.exports,i),n.l=!0,n.exports}i.m=e,i.c=t,i.d=function(e,t,r){i.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},i.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.t=function(e,t){if(1&t&&(e=i(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(i.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var n in e)i.d(r,n,function(t){return e[t]}.bind(null,n));return r},i.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return i.d(t,"a",t),t},i.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},i.p="/dist/",i(i.s=1)}([function(e,t){var r=document.querySelector("canvas"),n=r.getContext("2d");r.height=400,r.width=600;var o=[],a={x:230,y:0,width:67,height:67,frameX:0,frameY:1,x_velocity:0,y_velocity:0,moving:!1,jump:!0},g=new Image;g.src="src/images/eevee2.png";var h=new Image;h.src="src/images/bg-img.jpg";var c=new Image;c.src="src/images/13.png",(new Image).src="src/images/14.png";var y=new Image;y.src="src/images/15.png";var u=new Image;u.src="src/images/stones1.png",window.addEventListener("keydown",(function(e){o[e.key]=!0,a.moving=!0,a.jumping=!1})),window.addEventListener("keyup",(function(e){delete o[e.key],a.moving=!1,a.jumping=!1}));var f=[{x:100,y:200},{x:150,y:200},{x:200,y:100},{x:250,y:200},{x:300,y:200},{x:350,y:200}],d=[];var l=[];!function(){for(i=0;d.length<5;i++){var e=f[Math.floor(Math.random()*f.length)];console.log(e);var t={x:e.x,y:e.y,width:47,height:37};d.push(t)}}(),function e(){var t,f,m,v,s,w,x,p,_;n.clearRect(0,0,r.width,r.height),n.drawImage(h,0,0,r.width,r.height),n.beginPath(),t=g,f=a.width*a.frameX,m=a.height*a.frameY,v=a.width,s=a.height,w=a.x,x=a.y,p=a.width,_=a.height,n.drawImage(t,f,m,v,s,w,x,p,_),o.ArrowLeft&&a.x>0&&(a.x_velocity-=.5,a.frameY=0,a.moving=!0,a.jumping=!0),o.ArrowRight&&(a.x_velocity+=.5,a.frameY=1,a.moving=!0),o.ArrowUp&&0==a.jumping&&(a.y_velocity-=30,a.jumping=!0),a.y_velocity+=1.5,a.x+=a.x_velocity,a.y+=a.y_velocity,a.x_velocity*=.9,a.y_velocity*=.9,a.y>268&&(a.jumping=!1,a.y=268,a.y_velocity=0),a.frameX<3&&a.moving?a.frameX++:a.frameX=0,function(){for(i=0;i<d.length;i++)n.drawImage(c,d[i].x,d[i].y,d[i].width,d[i].height),n.drawImage(y,d[i].x+47,d[i].y,d[i].width,d[i].height)}(),function(){for(var e=0;e<d.length;e++)t=d[e],a.x>t.x+t.width||a.x+a.width<t.x||a.y>t.y+t.height||a.y+a.height<t.y||(a.y_velocity=0,a.y=d[e].y-60);var t}(),function(){for(var e=0;e<l.length;e++)n.drawImage(u,l[e].x,l[e].y,l[e].width,l[e].height)}(),function(){for(var e=0;e<d.length;e++){var t={x:d[e].x+50,y:d[e].y-40,width:d[e].width,height:d[e].height};l.push(t)}}(),function(){for(var e=0;e<l.length;e++)t=l[e],a.x>t.x+t.width||a.x+a.width<t.x||a.y>t.y+t.height||a.y+a.height<t.y||l.splice(e,1);var t}(),requestAnimationFrame(e)}()},function(e,t,i){"use strict";i.r(t);i(0)}]);
-//# sourceMappingURL=main.js.map
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.scss */ \"./src/styles/index.scss\");\n/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_index_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _src_scripts_game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/scripts/game */ \"./src/scripts/game.js\");\n/* harmony import */ var _src_scripts_game__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_src_scripts_game__WEBPACK_IMPORTED_MODULE_1__);\n\n// import \"../src/scripts/player\"\n\n\n// import '../src/scripts/main_player';\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/game.js":
+/*!*****************************!*\
+  !*** ./src/scripts/game.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// game\nconst canvas = document.querySelector(\"canvas\")\nconst context = canvas.getContext(\"2d\");\n \nconst playerSprite = new Image();\nplayerSprite.src = \"src/images/eevee2.png\";\nconst background = new Image();\nbackground.src = \"src/images/bg-img.jpg\";\n    \nconst platformSprite1 = new Image();\nplatformSprite1.src = \"src/images/13.png\";\nconst platformSprite2 = new Image();\nplatformSprite2.src = \"src/images/14.png\";\nconst platformSprite3 = new Image();\nplatformSprite3.src = \"src/images/15.png\";\nconst fireStone = new Image();\nfireStone.src = \"src/images/stones1.png\";\n\ncanvas.height = 400;\ncanvas.width = 600;\n\nconst keys = [];\n\nconst player = {\n    x: 230,\n    y: 0,\n    width: 67,\n    height: 67,\n    frameX: 0,\n    frameY: 1,\n    x_velocity: 0,\n    y_velocity: 0,\n    moving: false,\n    jump: true\n}\n\n\nfunction drawChar(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH) {\n    context.drawImage(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH);\n}\n\n\nwindow.addEventListener(\"keydown\", function(event) {\n    keys[event.key] = true;\n    player.moving = true;\n    player.jumping = false;\n\n\n    // console.log(keys);\n});\n\nwindow.addEventListener(\"keyup\", function(event){\n    delete keys[event.key];\n    player.moving = false;\n    player.jumping = false;\n});\n\nfunction movePlayer() {\n    if(keys[\"ArrowLeft\"] && player.x > 0) {\n        player.x_velocity -= 0.5;\n        player.frameY = 0;\n        player.moving = true;\n        player.jumping = true;\n\n    }\n    if(keys[\"ArrowRight\"]) { // && player.x < canvas.width - player.width\n        player.x_velocity += 0.5;\n        player.frameY = 1;\n        player.moving = true;\n    }\n    if(keys[\"ArrowUp\"] && player.jumping == false) {\n        player.y_velocity -= 30;\n        player.jumping = true;\n    }\n\n    // gravity\n    player.y_velocity += 1.5; \n    player.x += player.x_velocity;\n    player.y += player.y_velocity;\n    player.x_velocity *= 0.9;\n    player.y_velocity *= 0.9;\n    \n    if (player.y > 268) { \n        player.jumping = false;\n        player.y = 268;\n        player.y_velocity = 0;\n    }\n}\n\nfunction PlayerFrame() {\n    if(player.frameX < 3 && player.moving) {\n        player.frameX++\n    } else {\n        player.frameX = 0\n    };\n}\n\n// cordinates\n\n    let cord = [\n        {x:100, y:200},\n        {x:150, y:200},\n        {x:200, y:100},\n        {x:250, y:200},\n        {x:300, y:200},\n        {x:350, y:200}\n    ]\n\n\n// platforms\n    let platforms = [];\n    let num = 5;\n    function createPlatform(){\n        for(i = 0; platforms.length < num; i++) {\n            let randomCord = cord[Math.floor(Math.random()*cord.length)];\n            console.log(randomCord)\n            let platform = {\n                x: randomCord.x,\n                y: randomCord.y,\n                width: 47,\n                height: 37\n            }\n                platforms.push(platform);\n\n        }\n    }\n    function renderplatform(){\n        for(i = 0; i < platforms.length; i++) {\n                context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);\n                context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);\n        }\n    \n    }\n\n    function collisionCheck(platform) {\n            if(player.x > platform.x + platform.width) {return false};\n            if(player.y > platform.y + platform.height) {return false};\n            if(player.x + player.width < platform.x) {return false};\n            if(player.y + player.height < platform.y) {return false};\n            return true;\n    };\n\n    function platformCollision() {\n        for(let i = 0; i < platforms.length; i++) {\n            if(collisionCheck(platforms[i])) {\n                player.y_velocity = 0;\n                player.y = platforms[i].y - 60;\n            }\n        }\n    }\n\n// stones\n    let stones = [];\n    function stoneCollection() {\n        for(let i = 0; i < platforms.length; i++) {\n            let stone = {\n                x: platforms[i].x + 50,\n                y: platforms[i].y -40,\n                width: platforms[i].width,\n                height: platforms[i].height\n            }\n            stones.push(stone);\n        }\n    }\n\n    function renderStones() {\n        for(let i = 0; i < stones.length; i++) {\n            context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);\n        }\n    }\n\n    function stoneCollisionCheck(stone) {\n\n        if(player.x > stone.x + stone.width) {return false};\n        if(player.x + player.width < stone.x) {return false};\n        if(player.y > stone.y + stone.height) {return false};\n        if(player.y + player.height < stone.y) {return false};\n        return true;\n    };\n\n    function stoneCollision() {\n        \n        for(let i = 0; i < stones.length; i++) {\n            if (stoneCollisionCheck(stones[i])) {\n                stones.splice(i, 1);\n            }\n        }\n    }\n\n    function removeStone() {\n\n    }\n\n\nfunction animate() {\n    // for background later\n    context.clearRect(0, 0, canvas.width, canvas.height);\n    context.drawImage(background, 0, 0, canvas.width, canvas.height);\n    context.beginPath();\n    drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);\n    movePlayer();\n    PlayerFrame();\n\n    renderplatform();\n    platformCollision();\n\n    renderStones();\n    stoneCollection();\n    stoneCollision();\n\n    requestAnimationFrame(animate);\n}\n\ncreatePlatform();\nanimate();\n\n//# sourceURL=webpack:///./src/scripts/game.js?");
+
+/***/ }),
+
+/***/ "./src/styles/index.scss":
+/*!*******************************!*\
+  !*** ./src/styles/index.scss ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("\n\n//# sourceURL=webpack:///./src/styles/index.scss?");
+
+/***/ })
+
+/******/ });
