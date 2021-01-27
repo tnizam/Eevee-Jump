@@ -1,9 +1,16 @@
 // game
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
- 
+const startButton = document.getElementById("btnStart");
+const resetButton = document.getElementById("btnReset");
+const startModal = document.getElementById("startModal");
+const endModal = document.getElementById("endModal");
+const scoreCount = document.getElementById("score-count") 
+
 const playerSprite = new Image();
 playerSprite.src = "src/images/eevee2.png";
+const fireSprite = new Image();
+fireSprite.src = "src/images/flareon.png"; 
 const background = new Image();
 background.src = "src/images/bg-img.jpg";
     
@@ -19,9 +26,22 @@ fireStone.src = "src/images/stones1.png";
 canvas.height = 400;
 canvas.width = 600;
 
-const keys = [];
+let keys = [];
+let speed = -0.2;
+let x = 0;
+let platforms = [];
+let stones = [];
 
-const player = {
+let totalStones = 0;
+let frame = 0;
+let gameSpeed = 0.3;
+let wid = canvas.width;
+let minX = 5;
+let minY = 100;
+let minGap = 50;
+let maxGap = 90;
+
+let player = {
     x: 230,
     y: 0,
     width: 67,
@@ -34,6 +54,28 @@ const player = {
     jump: true
 }
 
+function reset() {
+    platforms = [];
+    stones = [];
+    totalStones = 0;
+    scoreCount.innerHTML = totalStones;
+
+    player = {
+        x: 230,
+        y: 0,
+        width: 67,
+        height: 67,
+        frameX: 0,
+        frameY: 1,
+        x_velocity: 0,
+        y_velocity: 0,
+        moving: false,
+        jump: true
+    }
+}
+
+
+//background
 
 function drawChar(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH) {
     context.drawImage(img, spriteX, spriteY, spriteW, spriteH, destX, destY, dW, dH);
@@ -56,19 +98,19 @@ window.addEventListener("keyup", function(event){
 });
 
 function movePlayer() {
-    if(keys["ArrowLeft"] && player.x > 0) {
+    if((keys["ArrowLeft"] || keys["a"]) && player.x > 0) {
         player.x_velocity -= 0.5;
         player.frameY = 0;
         player.moving = true;
         player.jumping = true;
 
     }
-    if(keys["ArrowRight"]) { // && player.x < canvas.width - player.width
+    if(keys["ArrowRight"] || keys["d"]) { // && player.x < canvas.width - player.width
         player.x_velocity += 0.5;
         player.frameY = 1;
         player.moving = true;
     }
-    if(keys["ArrowUp"] && player.jumping == false) {
+    if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
         player.y_velocity -= 30;
         player.jumping = true;
     }
@@ -85,6 +127,12 @@ function movePlayer() {
         player.y = 268;
         player.y_velocity = 0;
     }
+
+    if (player.y < 0) { 
+        player.jumping = false;
+        player.y = 0;
+        player.y_velocity = 0;
+    }
 }
 
 function PlayerFrame() {
@@ -95,41 +143,66 @@ function PlayerFrame() {
     };
 }
 
-// cordinates
-
-    let cord = [
-        {x:100, y:200},
-        {x:150, y:200},
-        {x:200, y:100},
-        {x:250, y:200},
-        {x:300, y:200},
-        {x:350, y:200}
-    ]
-
-
 // platforms
-    let platforms = [];
-    let num = 5;
+
     function createPlatform(){
-        for(i = 0; platforms.length < num; i++) {
-            let randomCord = cord[Math.floor(Math.random()*cord.length)];
-            console.log(randomCord)
+        // let x = minX + Math.floor(Math.random()*(500));
+        let x = 600;
+        let y = minY + Math.floor(Math.random()*(150));
+        let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
+
             let platform = {
-                x: randomCord.x,
-                y: randomCord.y,
+                x,
+                y,
+                width: 47,
+                height: 37
+            };
+            let stone = {
+                x: x + 50,
+                y: y - 40,
                 width: 47,
                 height: 37
             }
+            if(frame % gap === 0) {
                 platforms.push(platform);
+                stones.push(stone);  
+                frame = 0;    
+            }
 
-        }
+            for(let i = 0; i < platforms.length; i++) {
+                // updatePlatform();
+                setInterval(updatePlatform(), 5000)
+            }
+                
+    
     }
+
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
-                context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-                context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);
+            context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+            context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);        
         }
     
+    }
+    function renderStones(){
+        for(let i = 0; i < stones.length; i++) {
+            context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
+        }
+    }
+
+
+    function updatePlatform() {
+
+        for(let i = 0; i < platforms.length; i++) {
+            platforms[i].x -= gameSpeed;
+            // stones[i].x -= 1;
+            renderplatform();
+            // renderStones();
+        }
+        for(let i = 0; i < stones.length; i++) {
+            stones[i].x -=gameSpeed;
+            renderStones();
+        }
     }
 
     function collisionCheck(platform) {
@@ -149,25 +222,6 @@ function PlayerFrame() {
         }
     }
 
-// stones
-    let stones = [];
-    function stoneCollection() {
-        for(let i = 0; i < platforms.length; i++) {
-            let stone = {
-                x: platforms[i].x + 50,
-                y: platforms[i].y -40,
-                width: platforms[i].width,
-                height: platforms[i].height
-            }
-            stones.push(stone);
-        }
-    }
-
-    function renderStones() {
-        for(let i = 0; i < stones.length; i++) {
-            context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
-        }
-    }
 
     function stoneCollisionCheck(stone) {
 
@@ -178,38 +232,66 @@ function PlayerFrame() {
         return true;
     };
 
+    // Check stone collision here 
     function stoneCollision() {
         
         for(let i = 0; i < stones.length; i++) {
             if (stoneCollisionCheck(stones[i])) {
                 stones.splice(i, 1);
+                totalStones += 1;
+                scoreCount.innerHTML = totalStones;
             }
         }
     }
 
-    function removeStone() {
-
-    }
-
-
 function animate() {
     // for background later
+    context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+    context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
+    
     context.beginPath();
-    drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);
+    
+    
     movePlayer();
     PlayerFrame();
-
-    renderplatform();
+    
     platformCollision();
-
-    renderStones();
-    stoneCollection();
+    
     stoneCollision();
+    createPlatform();
+    
+    let animationId = requestAnimationFrame(animate);
+    // context.restore();
+    if(totalStones < 20) {
+        drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);    
+    } else {
+        context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
+        cancelAnimationFrame(animationId);
+        endModal.style.display = "flex";
+        resetButton.style.display = "flex";
+        startButton.style.display = "none";
+    }
 
-    requestAnimationFrame(animate);
+    frame+=1
 }
 
-createPlatform();
-animate();
+// start game
+
+startButton.addEventListener('click', () => {
+    reset();
+    animate();
+    startModal.style.display = "none";
+})
+
+// reset game
+
+resetButton.style.display = "none";
+resetButton.addEventListener('click', () => {
+    reset();
+    animate();
+    endModal.style.display = "none";
+    startModal.style.display = "none";
+})
+
