@@ -7,7 +7,7 @@
 
 Eevee Run is a classic runner game based on the Pokemon "eevee". The goal of this game is to collect 20 stones in total in order to evolve Eevee. 
 
-[Click here to play!](https://tnizam.github.io/Eevee-Runner/)
+[Click here to play!](https://tnizam.github.io/Eevee-Jump/)
 
 <br/>
 
