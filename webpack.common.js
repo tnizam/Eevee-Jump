@@ -27,49 +27,49 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
+          use: [
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
               publicPath: "../",
-            },
+              },
           },
           "css-loader",
           "postcss-loader",
-        ],
+          ],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
+        test: /\.(png|jpe?g|gif|svg)$/i, // add svg 
+          use: [
           {
-            loader: "file-loader",
-            options: {
+              loader: "file-loader",
+              options: {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
               name: "[name].[ext]",
               outputPath: "images/",
               publicPath: "images/",
-            },
+              },
           },
-        ],
+          ],
       },
       {
-        test: /\.scss/,
-        use: [
+          test: /\.scss/,
+          use: [
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
               publicPath: "../",
-            },
+              },
           },
           "css-loader",
           "sass-loader",
           "postcss-loader",
-        ],
+          ],
       },
     ],
   },

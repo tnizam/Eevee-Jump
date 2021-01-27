@@ -5,8 +5,8 @@ module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
   devServer: {
-    contentBase: "./",
-    watchContentBase: true,
-    open: "Google Chrome", // use "google-chrome" for PC
+    // contentBase: "./",
+    // watchContentBase: true,
+    // open: "Google Chrome", // use "google-chrome" for PC
   },
 });
