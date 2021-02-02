@@ -1,7 +1,7 @@
-import "./styles/index.scss";
+// import "./styles/index.scss";
 // import "../src/scripts/player"
 
-// import "./styles/style.css";
+// require("./styles/style.css");
 // import "../src/styles/index.scss"
 
 // import '../src/scripts/game';

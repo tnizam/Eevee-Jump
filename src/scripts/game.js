@@ -34,12 +34,12 @@ let stones = [];
 
 let totalStones = 0;
 let frame = 0;
-let gameSpeed = 0.3;
+let gameSpeed = 0.5;
 let wid = canvas.width;
 let minX = 5;
 let minY = 100;
-let minGap = 50;
-let maxGap = 90;
+let minGap = 20;
+let maxGap = 30;
 
 let player = {
     x: 230,
@@ -51,7 +51,7 @@ let player = {
     x_velocity: 0,
     y_velocity: 0,
     moving: false,
-    jump: true
+    jumping: true
 }
 
 function reset() {
@@ -70,7 +70,7 @@ function reset() {
         x_velocity: 0,
         y_velocity: 0,
         moving: false,
-        jump: true
+        jumping: true
     }
 }
 
@@ -99,24 +99,24 @@ window.addEventListener("keyup", function(event){
 
 function movePlayer() {
     if((keys["ArrowLeft"] || keys["a"]) && player.x > 0) {
-        player.x_velocity -= 0.5;
+        player.x_velocity -= 1.0;
         player.frameY = 0;
         player.moving = true;
         player.jumping = true;
 
     }
     if(keys["ArrowRight"] || keys["d"]) { // && player.x < canvas.width - player.width
-        player.x_velocity += 0.5;
+        player.x_velocity += 1.0;
         player.frameY = 1;
         player.moving = true;
     }
     if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
-        player.y_velocity -= 30;
+        player.y_velocity -= 20;
         player.jumping = true;
     }
 
     // gravity
-    player.y_velocity += 1.5; 
+    player.y_velocity += 0.5; 
     player.x += player.x_velocity;
     player.y += player.y_velocity;
     player.x_velocity *= 0.9;
@@ -149,7 +149,7 @@ function PlayerFrame() {
         // let x = minX + Math.floor(Math.random()*(500));
         let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
-        let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
+        let gap = Math.floor(Math.random()*(maxGap-minGap + 1) + minGap);
 
             let platform = {
                 x,
@@ -163,7 +163,11 @@ function PlayerFrame() {
                 width: 47,
                 height: 37
             }
-            if(frame % gap === 0) {
+            // console.log("frame", frame)
+            // console.log("gap", gap)
+
+            if(frame % 60 === 0) {
+                console.log("platform", platform)
                 platforms.push(platform);
                 stones.push(stone);  
                 frame = 0;    
@@ -206,8 +210,8 @@ function PlayerFrame() {
     }
 
     function collisionCheck(platform) {
-            if(player.x > platform.x + platform.width) {return false};
-            if(player.y > platform.y + platform.height) {return false};
+            if(player.x > platform.x + platform.width + 47) {return false};
+            if(player.y > platform.y + platform.height + 37) {return false};
             if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
@@ -274,7 +278,7 @@ function animate() {
         startButton.style.display = "none";
     }
 
-    frame+=1
+    frame+=0.5
 }
 
 // start game
