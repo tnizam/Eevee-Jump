@@ -3,6 +3,8 @@ const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
 const startButton = document.getElementById("btnStart");
 const resetButton = document.getElementById("btnReset");
+const playAgain = document.getElementById("playAgain");
+
 const contButton = document.getElementById("btnCont");
 
 const startModal = document.getElementById("startModal");
@@ -12,6 +14,8 @@ const scoreCount = document.getElementById("score-count")
 
 const playerSprite = new Image();
 playerSprite.src = "src/images/eevee2.png";
+const flareSprite = new Image();
+flareSprite.src = "src/images/flare2.png";
 const fireSprite = new Image();
 fireSprite.src = "src/images/flareon.png"; 
 const background = new Image();
@@ -42,6 +46,7 @@ let platforms = [];
 let stones = [];
 let enemies = [];
 let lives = [];
+let jumpHeight = 0;
 
 let totalLife = 3;
 let totalStones = 0;
@@ -65,14 +70,6 @@ let player = {
     moving: false,
     jumping: true
 }
-
-// let lifeLine = {
-//     x: 30,
-//     y: 200,
-//     width: 67,
-//     height: 67
-// }
-
 
 function reset() {
     platforms = [];
@@ -134,9 +131,10 @@ function movePlayer() {
         player.moving = true;
     }
     if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
-        player.y_velocity -= 20;
+        player.y_velocity -= 15;
+        console.log("vel", player.y_velocity)
         player.jumping = true;
-    }
+    } 
 
     // gravity
     player.y_velocity += 0.5; 
@@ -274,8 +272,8 @@ function PlayerFrame() {
     }
 
     function collisionCheck(platform) {
-            if(player.x > platform.x + platform.width + 77) {return false};
-            if(player.y > platform.y + platform.height + 37) {return false};
+            if(player.x > platform.x + platform.width + 40) {return false};
+            if(player.y > platform.y + platform.height ) {return false};
             if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
@@ -284,7 +282,7 @@ function PlayerFrame() {
     function platformCollision() {
         for(let i = 0; i < platforms.length; i++) {
             if(collisionCheck(platforms[i])) {
-                player.y_velocity = 0;
+                player.y_velocity -= 1;
                 player.y = platforms[i].y - 60;
             }
         }
@@ -334,7 +332,10 @@ function PlayerFrame() {
 
     // for continuous
 function animateNext() {
-        // for background later
+
+    lives = [];
+    totalLife = 3;
+        
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -350,6 +351,7 @@ function animateNext() {
     enemyCollision();
     stoneCollision();
     createPlatform();
+    
     // createLife();
     
     let animationId = requestAnimationFrame(animate);
@@ -366,6 +368,7 @@ function animateNext() {
 }
 
 // start of game
+console.log("stone", )
 
 function animate() {
     context.save();
@@ -387,17 +390,20 @@ function animate() {
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
-    if(totalStones < 1) {
+    if(totalStones < 2) {
         drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, 
             player.width, player.height, player.x, player.y, player.width, player.height);    
-    } else {
+    } else if (totalStones === 2) {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
         cancelAnimationFrame(animationId);
         endModal.style.display = "flex";
         resetButton.style.display = "flex";
         contButton.style.display = "flex";
         startButton.style.display = "none";
+    } else if (totalStones > 2) {
+        context.drawImage(fireSprite, player.x, player.y, 80, player.height); 
     }
+
 
     if(totalLife === 0) {
         console.log("lives", totalLife)
@@ -421,6 +427,15 @@ startButton.addEventListener('click', () => {
 
 // reset game
 
+playAgain.addEventListener('click', () => {
+    reset();
+    animate();
+    createLife();
+    endModal.style.display = "none";
+    gameLost.style.display = "none";
+    startModal.style.display = "none";
+})
+
 resetButton.style.display = "none";
 resetButton.addEventListener('click', () => {
     reset();
@@ -431,11 +446,16 @@ resetButton.addEventListener('click', () => {
     startModal.style.display = "none";
 })
 
+
+           
 contButton.style.display = "none";
 contButton.addEventListener('click', () => {
     animateNext();
     createLife();
+    totalStones += 1;
     endModal.style.display = "none";
     startModal.style.display = "none";
 })
+createLife();
+totalStones -= 1;
 

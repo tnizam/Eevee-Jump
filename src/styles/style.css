@@ -15,8 +15,9 @@
 
 div#score-keeper {
     position: absolute;
-    top: 80px;
-    left: 140px;
+    font-size: 18px;
+    top: 75px;
+    left: 158px;
     margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -63,7 +64,7 @@ div#score-keeper {
     position: absolute;
     width: 400px;
     left: 128px;
-    top: 365px;
+    top: 108px;
     background-color: white;
     margin: 12%;
     padding: 13px;
@@ -72,11 +73,25 @@ div#score-keeper {
     border-radius: 4px;
 }
 
+.lose-modal {
+    display: none;
+    position: absolute;
+    width: 400px;
+    left: 128px;
+    top: 358px;
+    background-color: white;
+    margin: 12%;
+    padding: 13px;
+    box-sizing: 5px;
+    box-shadow: 5px 10px rgba(0,0,0,0.3);
+    border-radius: 4px;    
+}
+
 .modal-canvas {
     position: absolute;
     margin: auto !important;
     left: 15%;
-    top: 67%;
+    top: 100%;
     transform: translate(-15%, -15%);
 }
 
@@ -96,28 +111,37 @@ div#score-keeper {
     padding-left: 12px;
 }
 
+.lose-container {
+    padding-left: 56px;
+}
+
 img.logo {
     width: 500px;
     margin: 40px 20px 20px 20px;
     position: relative;
-    left: 26%;
-    top: 8%;
+    left: 25%;
+    top: -25px;
 }
 
 .page-container {
     position: absolute;
     margin: auto !important;
+    left: 12%;
+    display: flex;
+    justify-content: center;
 }
 
 .icon-container {
     position: relative;
-    display: grid;
-    justify-items: flex-end;
+    display: flex;
     width: 139%;
     bottom: 9px;
     font-size: 33px;
+    top: 122px;
+    left: -25%;
 }
 
 .icon {
     color: #396BBA;
+    padding-right: 10px;
 }
