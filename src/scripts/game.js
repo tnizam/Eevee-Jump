@@ -169,7 +169,6 @@ function PlayerFrame() {
     function createPlatform(){
         let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
-        // let gap = Math.floor(Math.random()*(maxGap-minGap + 1) + minGap);
             let platform = {
                 x,
                 y,

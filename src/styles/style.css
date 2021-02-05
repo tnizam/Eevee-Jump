@@ -6,7 +6,7 @@
     width: 600px;
     height: 500px;
     border: 1px solid black;
-    background-image: url("/src/images/bg-img.jpg");
+    background-image: url("./src/images/bg-img.jpg");
     background-size: 800px;
     background-color: lightblue;
     margin: 10% 20% 0 20%;
