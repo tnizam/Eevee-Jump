@@ -51,7 +51,7 @@ let jumpHeight = 0;
 let totalLife = 3;
 let totalStones = 0;
 let frame = 0;
-let gameSpeed = 0.5;
+let gameSpeed = 0.3;
 let wid = canvas.width;
 let minX = 5;
 let minY = 100;
@@ -269,8 +269,8 @@ function PlayerFrame() {
     }
 
     function collisionCheck(platform) {
-            if(player.x > platform.x + platform.width + 40) {return false};
-            if(player.y > platform.y + platform.height ) {return false};
+            if(player.x > platform.x + platform.width + 15) {return false};
+            if(player.y > platform.y + platform.height - 20 ) {return false};
             if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
