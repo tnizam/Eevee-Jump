@@ -36,8 +36,8 @@ platformSprite3.src = "src/images/15.png";
 const fireStone = new Image();
 fireStone.src = "src/images/stones1.png";
 
-canvas.height = 400;
-canvas.width = 600;
+canvas.height = 500;
+canvas.width = 900;
 
 let keys = [];
 let speed = -0.2;
@@ -51,7 +51,7 @@ let jumpHeight = 0;
 let totalLife = 3;
 let totalStones = 0;
 let frame = 0;
-let gameSpeed = 0.3;
+let gameSpeed = 0.5;
 let wid = canvas.width;
 let minX = 5;
 let minY = 100;
@@ -131,21 +131,21 @@ function movePlayer() {
         player.moving = true;
     }
     if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
-        player.y_velocity -= 15;
+        player.y_velocity -= 18;
         console.log("vel", player.y_velocity)
         player.jumping = true;
     } 
 
     // gravity
-    player.y_velocity += 0.5; 
+    player.y_velocity += 0.4; 
     player.x += player.x_velocity;
     player.y += player.y_velocity;
     player.x_velocity *= 0.9;
     player.y_velocity *= 0.9;
     
-    if (player.y > 268) { 
+    if (player.y > 350) { 
         player.jumping = false;
-        player.y = 268;
+        player.y = 350;
         player.y_velocity = 0;
     }
 
@@ -167,8 +167,8 @@ function PlayerFrame() {
 // platforms
 
     function createPlatform(){
-        let x = 600;
-        let y = minY + Math.floor(Math.random()*(150));
+        let x = 900;
+        let y = minY + Math.floor(Math.random()*(230));
             let platform = {
                 x,
                 y,
@@ -189,7 +189,7 @@ function PlayerFrame() {
                 height: 37
             }
 
-            if(frame % 80 === 0) {
+            if(frame % 100 === 0) {
                 platforms.push(platform);
                 stones.push(stone);  
                 frame = 0; 
@@ -201,7 +201,7 @@ function PlayerFrame() {
 
             for(let i = 0; i < platforms.length; i++) {
                 // updatePlatform();
-                setInterval(updatePlatform(), 5000)
+                setInterval(updatePlatform(), 3000)
             }
                 
     
@@ -269,8 +269,8 @@ function PlayerFrame() {
     }
 
     function collisionCheck(platform) {
-            if(player.x > platform.x + platform.width + 15) {return false};
-            if(player.y > platform.y + platform.height - 20 ) {return false};
+            if(player.x > platform.x + platform.width + 14) {return false};
+            if(player.y > platform.y + platform.height - 15 ) {return false};
             if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
@@ -387,17 +387,17 @@ function animate() {
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
-    if(totalStones < 20) {
+    if(totalStones < 2) {
         drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, 
             player.width, player.height, player.x, player.y, player.width, player.height);    
-    } else if (totalStones === 20) {
+    } else if (totalStones === 2) {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
         cancelAnimationFrame(animationId);
         endModal.style.display = "flex";
         resetButton.style.display = "flex";
         contButton.style.display = "flex";
         startButton.style.display = "none";
-    } else if (totalStones > 20) {
+    } else if (totalStones > 2) {
         context.drawImage(fireSprite, player.x, player.y, 80, player.height); 
     }
 

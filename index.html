@@ -15,46 +15,50 @@
     <link rel="icon" href="./src/images/ev.png" type="image/png">
 </head>
 
-<body>
+<body class=".body">
     <!-- <button id="canvas-demo">Canvas Demo</button>
     <button id="DOM-demo">DOM Demo</button> -->
+    <div class=parent-container>
     <div class="page-container">
         <img src="./src/images/Eevee-Jump.png" alt="eevee run logo" class="logo">
-        <div class="modal-canvas">
-            <div id="score-keeper">
-                <span>Score: 
-                    <span id="score-count">0</span>
-                </span>
-            </div>
-            <div class="modal" id="startModal">
-                <div class="start-modal">
-                    <p class="instructions">The objective of this game is to collect 20 of the fire stones 
-                        in order to evolve the Pokemon Eevee into Flareon, its fire evolution. 
-                        Avoid Team Rocket and collect all 20 stones to evolve Eevee! 
-                    </p>
-                    <p class="instructions">To move use W,A,D or the left, right, and up arrows.</p>
-                    <button id="btnStart" class="button">Start</button>    
+        <div class="canvas">
+            <canvas id="canvas-background"></canvas>
+            <div class="modal-canvas">
+                <div id="score-keeper">
+                    <span>Score: 
+                        <span id="score-count">0</span>
+                    </span>
                 </div>
-            </div>
-            <div id ="endModal" class="restart-modal">
-                <div class="win-container">
-                    <h2 class="win-message">EEVEE HAS TRANSFORMED! YOU WIN!</h2>
-                    <p class="instructions" >You have been granted one extra point! You can press continue 
-                        to try and beat your high score on Eevee Jump with your brand new Flareon! 
-                        Or press restart to play the game from the very beginning!
-                    </p>
-                    <button id="btnReset" class="restart-button">Restart</button>
-                    <button id="btnCont" class="restart-button">Continue</button>
+                <div class="modal" id="startModal">
+                    <div class="start-modal">
+                        <p class="instructions">The objective of this game is to collect 20 of the fire stones 
+                            in order to evolve the Pokemon Eevee into Flareon, its fire evolution. 
+                            Avoid Team Rocket and collect all 20 stones to evolve Eevee! 
+                        </p>
+                        <p class="instructions">To move use W,A,D or the left, right, and up arrows.</p>
+                        <button id="btnStart" class="button">Start</button>    
+                    </div>
                 </div>
-            </div>
-            <div id="gameLost" class="lose-modal">
-                <div class="lose-container">
-                    <h2 class="win-message">YOU LOSE :( TRY AGAIN!!</h2>
-                    <button id="playAgain" class="restart-button">Play Again</button>
+                <div id ="endModal" class="restart-modal">
+                    <div class="win-container">
+                        <h2 class="win-message">EEVEE HAS TRANSFORMED! YOU WIN!</h2>
+                        <p class="instructions" >You have been granted one extra point! You can press continue 
+                            to try and beat your high score on Eevee Jump with your brand new Flareon! 
+                            Or press restart to play the game from the very beginning!
+                        </p>
+                        <button id="btnReset" class="restart-button">Restart</button>
+                        <button id="btnCont" class="restart-button">Continue</button>
+                    </div>
                 </div>
+                <div id="gameLost" class="lose-modal">
+                    <div class="lose-container">
+                        <h2 class="win-message">YOU LOSE :( TRY AGAIN!!</h2>
+                        <button id="playAgain" class="restart-button">Play Again</button>
+                    </div>
+                </div>
+    
             </div>
-            <canvas id="canvas-background" class="canvas" ></canvas>
-        </div>
+        
                     <div class="icon-container">
                         <a class="icon" target="_blank" href="https://github.com/tnizam/Eevee-Jump/">
                             <i class="fab fa-github-alt"></i>
@@ -66,8 +70,10 @@
                             <i class="fas fa-user-circle"></i>
                         </a>
                     </div>
-        </div>
-    <script src="./src/scripts/game.js"></script>
+            </div>
+        <script src="./src/scripts/game.js"></script>
+    </div>
+    </div>
     <!-- <script src="./dist/main.js"></script> -->
     <!-- <img src="./src/images/bg-img.jpg" id="background-img"> -->
 </body>

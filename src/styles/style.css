@@ -3,21 +3,21 @@
 }
 
 .canvas {
-    width: 600px;
+    width: 900px;
     height: 500px;
     border: 1px solid black;
-    background-image: url("/src/images/bg-img.jpg");
+    background-image: url("/src/images/bg-img2.png");
     background-size: 800px;
     background-color: lightblue;
-    margin: 10% 20% 0 20%;
-
+    position: relative;
+    top: 21px;
 }
 
 div#score-keeper {
     position: absolute;
-    font-size: 18px;
-    top: 75px;
-    left: 158px;
+    font-size: 22px;
+    top: -500px;
+    left: 35px;
     margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -25,15 +25,15 @@ div#score-keeper {
 
 .modal {
     position: absolute;
-    left: 172px;
-    top: 80px;
-    width: 300px;
+    left: 261px;
+    top: -430px;
+    width: 320px;
     height: 250px;
     background-color: white;
-    margin: 12%;
+    /* margin: 12%; */
     padding: 20px;
     box-sizing: 5px;
-    box-shadow: 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 5px 10px rgb(0 0 0 / 30%);
     border-radius: 4px;
 }
 
@@ -63,36 +63,32 @@ div#score-keeper {
     display: none;
     position: absolute;
     width: 400px;
-    left: 128px;
-    top: 108px;
     background-color: white;
     margin: 12%;
     padding: 13px;
     box-sizing: 5px;
-    box-shadow: 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 5px 10px rgb(0 0 0 / 30%);
     border-radius: 4px;
+    top: -497px;
+    left: 108px;
 }
 
 .lose-modal {
     display: none;
     position: absolute;
     width: 400px;
-    left: 128px;
-    top: 358px;
+    left: 219px;
+    top: -138px;
     background-color: white;
-    margin: 12%;
     padding: 13px;
     box-sizing: 5px;
-    box-shadow: 5px 10px rgba(0,0,0,0.3);
-    border-radius: 4px;    
+    box-shadow: 5px 10px rgb(0 0 0 / 30%);
+    border-radius: 4px;   
 }
 
 .modal-canvas {
-    position: absolute;
-    margin: auto !important;
-    left: 15%;
-    top: 100%;
-    transform: translate(-15%, -15%);
+    position: relative;
+
 }
 
 .win-message {
@@ -115,33 +111,33 @@ div#score-keeper {
     padding-left: 56px;
 }
 
-img.logo {
+/* img.logo {
     width: 500px;
     margin: 40px 20px 20px 20px;
     position: relative;
     left: 25%;
     top: -25px;
-}
+} */
+
 
 .page-container {
-    position: absolute;
-    margin: auto !important;
-    left: 12%;
     display: flex;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .icon-container {
     position: relative;
     display: flex;
-    width: 139%;
+    width: 10px;
     bottom: 9px;
     font-size: 33px;
-    top: 122px;
-    left: -25%;
+    top: -111%;
+    left: 42%;
 }
 
 .icon {
     color: #396BBA;
-    padding-right: 10px;
+    padding-right: 25px;
 }
