@@ -165,15 +165,10 @@ function PlayerFrame() {
 // platforms
 
     function createPlatform(){
-<<<<<<< HEAD
         let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
         let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
 
-=======
-        let x = 900;
-        let y = minY + Math.floor(Math.random()*(230));
->>>>>>> gh-pages
             let platform = {
                 x,
                 y,
@@ -205,12 +200,8 @@ function PlayerFrame() {
             }
 
             for(let i = 0; i < platforms.length; i++) {
-<<<<<<< HEAD
-                setInterval(updatePlatform(), 5000)
-=======
                 // updatePlatform();
                 setInterval(updatePlatform(), 3000)
->>>>>>> gh-pages
             }
                 
     
@@ -260,13 +251,7 @@ function PlayerFrame() {
 
         for(let i = 0; i < platforms.length; i++) {
             platforms[i].x -= gameSpeed;
-<<<<<<< HEAD
             renderplatform();
-=======
-
-            renderplatform();
-       
->>>>>>> gh-pages
         }
         for(let i = 0; i < stones.length; i++) {
             stones[i].x -=gameSpeed;
