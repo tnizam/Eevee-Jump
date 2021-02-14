@@ -387,17 +387,17 @@ function animate() {
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
-    if(totalStones < 2) {
+    if(totalStones < 20) {
         drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, 
             player.width, player.height, player.x, player.y, player.width, player.height);    
-    } else if (totalStones === 2) {
+    } else if (totalStones === 20) {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
         cancelAnimationFrame(animationId);
         endModal.style.display = "flex";
         resetButton.style.display = "flex";
         contButton.style.display = "flex";
         startButton.style.display = "none";
-    } else if (totalStones > 2) {
+    } else if (totalStones > 20) {
         context.drawImage(fireSprite, player.x, player.y, 80, player.height); 
     }
 
