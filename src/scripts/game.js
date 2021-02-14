@@ -3,17 +3,30 @@ const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d");
 const startButton = document.getElementById("btnStart");
 const resetButton = document.getElementById("btnReset");
+const playAgain = document.getElementById("playAgain");
+
+const contButton = document.getElementById("btnCont");
+
 const startModal = document.getElementById("startModal");
 const endModal = document.getElementById("endModal");
+const gameLost = document.getElementById("gameLost");
 const scoreCount = document.getElementById("score-count") 
 
 const playerSprite = new Image();
 playerSprite.src = "src/images/eevee2.png";
+const flareSprite = new Image();
+flareSprite.src = "src/images/flare2.png";
 const fireSprite = new Image();
 fireSprite.src = "src/images/flareon.png"; 
 const background = new Image();
 background.src = "src/images/bg-img.jpg";
-    
+
+const enemySprite = new Image();
+enemySprite.src = "src/images/teamR.png";
+
+const lifeSprite = new Image();
+lifeSprite.src = "src/images/pokeball.png";
+
 const platformSprite1 = new Image();
 platformSprite1.src = "src/images/13.png";
 const platformSprite2 = new Image();
@@ -23,23 +36,27 @@ platformSprite3.src = "src/images/15.png";
 const fireStone = new Image();
 fireStone.src = "src/images/stones1.png";
 
-canvas.height = 400;
-canvas.width = 600;
+canvas.height = 500;
+canvas.width = 900;
 
 let keys = [];
 let speed = -0.2;
 let x = 0;
 let platforms = [];
 let stones = [];
+let enemies = [];
+let lives = [];
+let jumpHeight = 0;
 
+let totalLife = 3;
 let totalStones = 0;
 let frame = 0;
-let gameSpeed = 0.3;
+let gameSpeed = 0.5;
 let wid = canvas.width;
 let minX = 5;
 let minY = 100;
-let minGap = 50;
-let maxGap = 90;
+// let minGap = 20;
+// let maxGap = 30;
 
 let player = {
     x: 230,
@@ -51,13 +68,16 @@ let player = {
     x_velocity: 0,
     y_velocity: 0,
     moving: false,
-    jump: true
+    jumping: true
 }
 
 function reset() {
     platforms = [];
     stones = [];
+    enemies = [];
+    lives = [];
     totalStones = 0;
+    totalLife = 3;
     scoreCount.innerHTML = totalStones;
 
     player = {
@@ -70,7 +90,7 @@ function reset() {
         x_velocity: 0,
         y_velocity: 0,
         moving: false,
-        jump: true
+        jumping: true
     }
 }
 
@@ -97,32 +117,33 @@ window.addEventListener("keyup", function(event){
 
 function movePlayer() {
     if((keys["ArrowLeft"] || keys["a"]) && player.x > 0) {
-        player.x_velocity -= 0.5;
+        player.x_velocity -= 1.0;
         player.frameY = 0;
         player.moving = true;
         player.jumping = true;
 
     }
     if(keys["ArrowRight"] || keys["d"]) { // && player.x < canvas.width - player.width
-        player.x_velocity += 0.5;
+        player.x_velocity += 1.0;
         player.frameY = 1;
         player.moving = true;
     }
     if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
-        player.y_velocity -= 30;
+        player.y_velocity -= 18;
+        console.log("vel", player.y_velocity)
         player.jumping = true;
-    }
+    } 
 
     // gravity
-    player.y_velocity += 1.5; 
+    player.y_velocity += 0.4; 
     player.x += player.x_velocity;
     player.y += player.y_velocity;
     player.x_velocity *= 0.9;
     player.y_velocity *= 0.9;
     
-    if (player.y > 268) { 
+    if (player.y > 350) { 
         player.jumping = false;
-        player.y = 268;
+        player.y = 350;
         player.y_velocity = 0;
     }
 
@@ -144,64 +165,125 @@ function PlayerFrame() {
 // platforms
 
     function createPlatform(){
+<<<<<<< HEAD
         let x = 600;
         let y = minY + Math.floor(Math.random()*(150));
         let gap = minGap + Math.floor(Math.random()*(maxGap-minGap + 1));
 
+=======
+        let x = 900;
+        let y = minY + Math.floor(Math.random()*(230));
+>>>>>>> gh-pages
             let platform = {
                 x,
                 y,
-                width: 47,
+                width: 77,
                 height: 37
             };
             let stone = {
-                x: x + 50,
+                x: x + 120,
                 y: y - 40,
                 width: 47,
                 height: 37
             }
-            if(frame % gap === 0) {
+
+            let enemy = {
+                x: x + 10,
+                y: y - 35,
+                width: 47,
+                height: 37
+            }
+
+            if(frame % 100 === 0) {
                 platforms.push(platform);
                 stones.push(stone);  
-                frame = 0;    
+                frame = 0; 
+
+                if (platforms.length % 2 === 0) {
+                    enemies.push(enemy);
+                } 
             }
 
             for(let i = 0; i < platforms.length; i++) {
+<<<<<<< HEAD
                 setInterval(updatePlatform(), 5000)
+=======
+                // updatePlatform();
+                setInterval(updatePlatform(), 3000)
+>>>>>>> gh-pages
             }
                 
     
     }
 
+    function createLife() {
+        for(let i = 1; i <= 3; i++) {
+            let lifeLine = {
+                x: i * 30,
+                y: 22,
+                width: 57,
+                height: 57
+            }
+            lives.push(lifeLine);
+
+        }
+    }
+    function renderLives(){
+        for(let i = 0; i < lives.length; i++) {
+            context.drawImage(lifeSprite, lives[i].x, lives[i].y, lives[i].width, lives[i].height);
+        }
+    }
+
     function renderplatform(){
         for(i = 0; i < platforms.length; i++) {
             context.drawImage(platformSprite1, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-            context.drawImage(platformSprite3, platforms[i].x+47, platforms[i].y, platforms[i].width, platforms[i].height);        
+            context.drawImage(platformSprite3, platforms[i].x+77, platforms[i].y, platforms[i].width, platforms[i].height);        
         }
     
     }
+
     function renderStones(){
         for(let i = 0; i < stones.length; i++) {
             context.drawImage(fireStone, stones[i].x, stones[i].y, stones[i].width, stones[i].height);
         }
     }
 
+    function renderEnemy() {
+        for(let i = 0; i < enemies.length; i++) {
+            context.drawImage(enemySprite, enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
+        }
+    }
+
+
 
     function updatePlatform() {
 
         for(let i = 0; i < platforms.length; i++) {
             platforms[i].x -= gameSpeed;
+<<<<<<< HEAD
             renderplatform();
+=======
+
+            renderplatform();
+       
+>>>>>>> gh-pages
         }
         for(let i = 0; i < stones.length; i++) {
             stones[i].x -=gameSpeed;
             renderStones();
         }
+
+        for(let i = 0; i < enemies.length; i++) {
+            enemies[i].x -=gameSpeed;
+            renderEnemy();
+        }
+
+        renderLives();
     }
 
     function collisionCheck(platform) {
-            if(player.x > platform.x + platform.width) {return false};
-            if(player.y > platform.y + platform.height) {return false};
+            if(player.x > platform.x + platform.width + 14) {return false};
+            if(player.y > platform.y + platform.height - 15 ) {return false};
             if(player.x + player.width < platform.x) {return false};
             if(player.y + player.height < platform.y) {return false};
             return true;
@@ -210,7 +292,7 @@ function PlayerFrame() {
     function platformCollision() {
         for(let i = 0; i < platforms.length; i++) {
             if(collisionCheck(platforms[i])) {
-                player.y_velocity = 0;
+                player.y_velocity -= 1;
                 player.y = platforms[i].y - 60;
             }
         }
@@ -226,6 +308,15 @@ function PlayerFrame() {
         return true;
     };
 
+        function enemyCollisionCheck(enemy) {
+
+        if(player.x > enemy.x + enemy.width) {return false};
+        if(player.x + player.width < enemy.x) {return false};
+        if(player.y > enemy.y + enemy.height) {return false};
+        if(player.y + player.height < enemy.y) {return false};
+        return true;
+    };
+
     // Check stone collision here 
     function stoneCollision() {
         
@@ -237,6 +328,57 @@ function PlayerFrame() {
             }
         }
     }
+
+    function enemyCollision() {  
+        for(let i = 0; i < enemies.length; i++) {
+            if (enemyCollisionCheck(enemies[i])) {
+                enemies.splice(i, 1);
+                totalLife -= 1;
+                lives.pop();
+                console.log("totallife",totalLife)
+            }
+        }
+    }
+
+    // for continuous
+function animateNext() {
+
+    lives = [];
+    totalLife = 3;
+        
+    context.save();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.drawImage(background, 0, 0, canvas.width, canvas.height); 
+    
+    context.beginPath();
+    
+    
+    movePlayer();
+    PlayerFrame();
+    
+    platformCollision();
+    enemyCollision();
+    stoneCollision();
+    createPlatform();
+    
+    // createLife();
+    
+    let animationId = requestAnimationFrame(animate);
+
+    if(totalLife === 0) {
+        console.log("lives", totalLife)
+        cancelAnimationFrame(animationId);
+        gameLost.style.display = "flex";
+        resetButton.style.display = "flex";
+        startButton.style.display = "none";        
+    }
+
+    frame+=0.5
+}
+
+// start of game
+console.log("stone", )
 
 function animate() {
     context.save();
@@ -251,22 +393,35 @@ function animate() {
     PlayerFrame();
     
     platformCollision();
-    
+    enemyCollision();
     stoneCollision();
     createPlatform();
     
     let animationId = requestAnimationFrame(animate);
     if(totalStones < 20) {
-        drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height);    
-    } else {
+        drawChar(playerSprite, player.width * player.frameX, player.height * player.frameY, 
+            player.width, player.height, player.x, player.y, player.width, player.height);    
+    } else if (totalStones === 20) {
         context.drawImage(fireSprite, player.x, player.y, player.width, player.height); 
         cancelAnimationFrame(animationId);
         endModal.style.display = "flex";
         resetButton.style.display = "flex";
+        contButton.style.display = "flex";
         startButton.style.display = "none";
+    } else if (totalStones > 20) {
+        context.drawImage(fireSprite, player.x, player.y, 80, player.height); 
     }
 
-    frame+=1
+
+    if(totalLife === 0) {
+        console.log("lives", totalLife)
+        cancelAnimationFrame(animationId);
+        gameLost.style.display = "flex";
+        resetButton.style.display = "flex";
+        startButton.style.display = "none";        
+    }
+
+    frame+=0.5
 }
 
 // start game
@@ -274,16 +429,41 @@ function animate() {
 startButton.addEventListener('click', () => {
     reset();
     animate();
+    createLife();
     startModal.style.display = "none";
 })
 
 // reset game
 
+playAgain.addEventListener('click', () => {
+    reset();
+    animate();
+    createLife();
+    endModal.style.display = "none";
+    gameLost.style.display = "none";
+    startModal.style.display = "none";
+})
+
 resetButton.style.display = "none";
 resetButton.addEventListener('click', () => {
     reset();
     animate();
+    createLife();
+    endModal.style.display = "none";
+    gameLost.style.display = "none";
+    startModal.style.display = "none";
+})
+
+
+           
+contButton.style.display = "none";
+contButton.addEventListener('click', () => {
+    animateNext();
+    createLife();
+    totalStones += 1;
     endModal.style.display = "none";
     startModal.style.display = "none";
 })
+createLife();
+totalStones -= 1;
 

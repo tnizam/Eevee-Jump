@@ -90,22 +90,10 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.scss */ \"./src/styles/index.scss\");\n/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_index_scss__WEBPACK_IMPORTED_MODULE_0__);\n\n// import \"../src/scripts/player\"\n\n// import \"./styles/style.css\";\n// import \"../src/styles/index.scss\"\n\n// import '../src/scripts/game';\n// import '../src/scripts/main_player';\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
-
-/***/ }),
-
-/***/ "./src/styles/index.scss":
-/*!*******************************!*\
-  !*** ./src/styles/index.scss ***!
-  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("throw new Error(\"Module parse failed: Unexpected token (1:0)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n> .fullpage {\\n|     background-color: bisque;\\n| }\");\n\n//# sourceURL=webpack:///./src/styles/index.scss?");
+eval("// import \"./styles/index.scss\";\n// import \"../src/scripts/player\"\n\n// require(\"./styles/style.css\");\n// import \"../src/styles/index.scss\"\n\n// import '../src/scripts/game';\n// import '../src/scripts/main_player';\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

@@ -39,6 +39,7 @@ module.exports = {
                     },
                     "css-loader",
                     "postcss-loader",
+                    "style-loader"
                 ],
             },
             {
