@@ -334,7 +334,7 @@ function animateNext() {
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.drawImage(background, 0, 0, canvas.width, canvas.height); //background
+    context.drawImage(background, 0, 0, canvas.width, canvas.height); 
     
     context.beginPath();
     
