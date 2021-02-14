@@ -107,8 +107,6 @@ window.addEventListener("keydown", function(event) {
     player.moving = true;
     player.jumping = false;
 
-
-    // console.log(keys);
 });
 
 window.addEventListener("keyup", function(event){
@@ -383,7 +381,6 @@ function animate() {
     enemyCollision();
     stoneCollision();
     createPlatform();
-    // createLife();
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
