@@ -29,8 +29,12 @@ const platformSprite3 = new Image();
 platformSprite3.src = "src/images/15.png";
 const fireStone = new Image();
 fireStone.src = "src/images/stones1.png";
+
+// CANVAS SIZE
 canvas.height = 500;
 canvas.width = 900;
+
+// GAME VARIABLES
 let keys = [];
 let speed = -0.2;
 let x = 0;
@@ -46,8 +50,8 @@ let gameSpeed = 0.5;
 let wid = canvas.width;
 let minX = 5;
 let minY = 100;
-// let minGap = 20;
-// let maxGap = 30;
+
+// PLAYER SETUP
 let player = {
     x: 230,
     y: 0,
@@ -109,7 +113,6 @@ function movePlayer() {
     }
     if((keys["ArrowUp"] || keys['w']) && player.jumping == false) {
         player.y_velocity -= 18;
-        console.log("vel", player.y_velocity)
         player.jumping = true;
     } 
     // gravity
@@ -129,6 +132,17 @@ function movePlayer() {
         player.y = 0;
         player.y_velocity = 0;
     }
+
+    if (player.x < 0) { 
+        // player.jumping = false;
+        player.x = 0;
+        player.x_velocity = 0;
+    }
+    if (player.x > 840) { 
+        // player.jumping = false;
+        player.x = 840;
+        player.x_velocity = 0;
+    }
 }
 function PlayerFrame() {
     if(player.frameX < 3 && player.moving) {
@@ -139,6 +153,7 @@ function PlayerFrame() {
 }
 // platforms
     function createPlatform(){
+
         let x = 900;
         let y = minY + Math.floor(Math.random()*(230));
             let platform = {
@@ -159,21 +174,31 @@ function PlayerFrame() {
                 width: 47,
                 height: 37
             }
-            if(frame % 100 === 0) {
+
+            let randEnemy = Math.floor(Math.random()*(platforms.length)) - 1;
+            // let randGap = Math.floor(Math.random()*200) + 100;
+            // console.log("ran", randGap)
+            // console.log(randGap % 99 === 0)
+            if(frame % 80 === 0) {
                 platforms.push(platform);
+
                 stones.push(stone);  
                 frame = 0; 
-                if (platforms.length % 2 === 0) {
+                if (platforms.length % randEnemy === 0) {
                     enemies.push(enemy);
                 } 
             }
             for(let i = 0; i < platforms.length; i++) {
                 // updatePlatform();
-                setInterval(updatePlatform(), 3000)
+                setInterval(updatePlatform(), 1000)
             }
                 
-    
     }
+
+    function deletePlatform() {
+        
+    }
+
     function createLife() {
         for(let i = 1; i <= 3; i++) {
             let lifeLine = {
@@ -260,6 +285,8 @@ function PlayerFrame() {
                 stones.splice(i, 1);
                 totalStones += 1;
                 scoreCount.innerHTML = totalStones;
+            } else if (stones[i].x + stones[i].width < 0){
+                stones.splice(i, 1);
             }
         }
     }
@@ -268,11 +295,22 @@ function PlayerFrame() {
             if (enemyCollisionCheck(enemies[i])) {
                 enemies.splice(i, 1);
                 totalLife -= 1;
-                lives.pop();
-                console.log("totallife",totalLife)
+                lives.pop();     
+            } else if (enemies[i].x + enemies[i].width < 0){
+                enemies.splice(i, 1);
             }
         }
     }
+
+    function deletePlatform() {
+        for(let i = 0; i < platforms.length; i++) {
+            if(platforms[i].x + (platforms[i].width * 2) < 0) {
+                platforms.splice(i, 1);
+            }
+        }
+    }
+
+
     // for continuous
 function animateNext() {
     lives = [];
@@ -285,7 +323,6 @@ function animateNext() {
     // context.drawImage(background, 0, 0, canvas.width, canvas.height); 
 
     context.beginPath();
-
     
     movePlayer();
     PlayerFrame();
@@ -299,16 +336,16 @@ function animateNext() {
     
     let animationId = requestAnimationFrame(animate);
     if(totalLife === 0) {
-        console.log("lives", totalLife)
+        
         cancelAnimationFrame(animationId);
         gameLost.style.display = "flex";
         resetButton.style.display = "flex";
         startButton.style.display = "none";        
     }
-    frame+=0.5
+    frame+=1
 }
 // start of game
-console.log("stone", )
+
 function animate() {
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -324,6 +361,8 @@ function animate() {
     enemyCollision();
     stoneCollision();
     createPlatform();
+
+    deletePlatform();
     
     let animationId = requestAnimationFrame(animate);
     // context.restore();
@@ -341,13 +380,14 @@ function animate() {
         context.drawImage(fireSprite, player.x, player.y, 80, player.height); 
     }
     if(totalLife === 0) {
-        console.log("lives", totalLife)
+    
         cancelAnimationFrame(animationId);
         gameLost.style.display = "flex";
         resetButton.style.display = "flex";
         startButton.style.display = "none";        
     }
     frame+=0.5
+    gameSpeed += 0.0002
 }
 // start game
 startButton.addEventListener('click', () => {
